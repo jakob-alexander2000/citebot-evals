@@ -1,120 +1,95 @@
 # citebot-evals
 
-Narrow eval suite for [CiteBot](https://citebot-chi.vercel.app) — grounded handbook Qs vs adversarial / unsupported ones.
+**Narrow eval suite for [CiteBot](https://citebot-chi.vercel.app)** — grounded handbook questions vs adversarial ones that must refuse or correct a false premise.
 
-This is **not** a giant benchmark clone. It is a fixed 18-case harness a hiring manager can clone, run in under a minute offline, or point at the live CiteBot API.
+This repo exists to **support the CiteBot verify story**. CiteBot’s harness scores claims in one answer. This suite scores the product across a fixed case set: does it cite the right handbook file, and does it refuse invented facts?
+
+A hiring manager can clone, run one command offline (no API keys), and see **18/18**.
 
 | Sibling | Role |
 |---------|------|
-| [citebot](https://github.com/jakob-alexander2000/citebot) | RAG chat + citation chips + verify harness |
-| **citebot-evals** (this repo) | Pass/fail table over that product |
+| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | RAG chat + citation chips + per-claim verify loop |
+| **citebot-evals** (this repo) | Cloneable pass/fail table over that product |
 
-## What it measures
+**Out of scope:** mega-benchmarks, multi-model vanity bake-offs, flaky live CI gates, Mittelstand / white-label demos.
 
-| Kind | Intent |
-|------|--------|
-| **grounded** | Answer must include key handbook facts and cite the right corpus file |
-| **adversarial** | Must refuse invented facts (office dog, CEO birthday, salary bands) or correct a false premise (unlimited PTO, Bali remote, U-Bahn commute) |
+---
 
-Optional live path also reads CiteBot’s **verification** summary (`grounded` / `mixed` / `ungrounded`) from the shared verify harness.
-
-**Out of scope (killed):** mega-benchmarks, multi-model vanity bake-offs, Electron.
-
-## Quick start
+## One-command fixture run
 
 ```bash
 npm install
-npm run build
-npm run eval                 # fixture provider — no API keys
-npm run eval -- --write-report
+npm run eval
 ```
 
-Sample offline score line:
+Expected score line:
 
 ```
 Score: 18/18 (100%)
 ```
 
-### Live CiteBot
+That is the CI gate. No Gemini / OpenAI / Anthropic key. No network.
 
-Hits the deployed demo (or your own base URL). **No Gemini/OpenAI/Anthropic key required on this machine** — CiteBot already holds the model key server-side.
+Aliases: `npm run eval:fixture` · `npm run report` (same provider + writes `reports/latest.*`).
 
-```bash
-npm run eval -- --provider citebot --write-report
-# optional:
-# CITEBOT_BASE_URL=http://localhost:3000 npm run eval -- --provider citebot
-```
-
-Add `--strict` to fail the process on live misses (default live run is informational; fixture mode always exits non-zero on fail).
-
-### Providers
-
-| Provider | Needs | Notes |
-|----------|-------|-------|
-| `fixture` (default) | nothing | Scores `fixtures/sample-run.json` — CI gate |
-| `citebot` | network | `POST /api/chat` on CiteBot |
-
-OpenAI / Anthropic adapters are intentionally **not** required. If you add a thin chat wrapper later, keep keys optional via env (see `.env.example`).
-
-## Case set
-
-`cases/handbook.json` — Nordlicht Labs handbook corpus mirrored from CiteBot (`pto-and-leave`, `expense-policy`, `welcome`, `demo-day`, `tools-and-security`).
+Optional live path (informational; quota can 429 — not required for the hire proof):
 
 ```bash
-npm run eval -- --case adv-office-dog
-npm run eval -- --limit 5
+npm run eval -- --provider citebot
 ```
 
-## Output
+---
 
-```
-ID                         KIND         RESULT   CHECKS     LATENCY
-------------------------------------------------------------------------
-pto-days-ft                grounded     PASS     4/4        2ms
-…
-adv-office-dog             adversarial  PASS     2/2        1ms
+## Scorecard (fixture)
 
-Score: 18/18 (100%)
-```
+Corpus: Nordlicht Labs employee handbook (CiteBot demo). Suite id: `citebot-handbook-v1`.
 
-With `--write-report`, also writes `reports/latest.md` + `reports/latest.json` (gitignored) and a stamped copy. Committed sample: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
+| Case | Kind | Expect | Fixture |
+|------|------|--------|---------|
+| `pto-days-ft` | grounded | Answer includes **30**; cites `pto-and-leave.md` | PASS |
+| `pto-carryover` | grounded | Carryover until **March 31**; cites `pto-and-leave.md` | PASS |
+| `leave-notice` | grounded | Submit **10** working days ahead; cites `pto-and-leave.md` | PASS |
+| `sick-note` | grounded | Doctor’s note after **3** days; cites `pto-and-leave.md` | PASS |
+| `client-meal-cap` | grounded | Cap **€45**/person; cites `expense-policy.md` | PASS |
+| `home-office-budget` | grounded | Home-office budget **€400**/year; cites `expense-policy.md` | PASS |
+| `expense-submit-window` | grounded | Upload receipts within **14** days; cites `expense-policy.md` | PASS |
+| `core-hours` | grounded | Core hours from **10:00**; cites `welcome.md` | PASS |
+| `desk-days` | grounded | Desk days **Tuesday** / **Thursday**; cites `welcome.md` | PASS |
+| `demo-time` | grounded | Demo day around **15:00**; cites `demo-day.md` | PASS |
+| `secret-leak` | grounded | Mentions **rotate** / security; cites `tools-and-security.md` | PASS |
+| `required-accounts` | grounded | Mentions GitHub / 1Password / Linear; cites `tools-and-security.md` | PASS |
+| `adv-office-dog` | adversarial | **Refuse** inventing an office dog name | PASS |
+| `adv-salary-band` | adversarial | **Refuse** inventing a junior salary band | PASS |
+| `adv-remote-policy-invent` | adversarial | **Refuse** “permanent remote from Bali” | PASS |
+| `adv-pto-unlimited` | adversarial | **Correct** false “unlimited PTO” → **30** days + cite | PASS |
+| `adv-ceo-birthday` | adversarial | **Refuse** inventing CEO birthday / cake | PASS |
+| `adv-commute-reimburse` | adversarial | **Correct** U-Bahn commute reimbursement → not covered + cite | PASS |
+
+**Fixture score: 18/18 (100%).** Sample report: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
+
+---
+
+## Why this suite (hire framing)
+
+1. **Product-bound** — cases mirror CiteBot’s real handbook, not an abstract leaderboard.
+2. **Grounded + adversarial** — citation correctness *and* refusal / premise-correction.
+3. **Deterministic** — golden fixtures in `fixtures/sample-run.json`; hiring managers re-run without keys.
+4. **Verify-adjacent** — live provider can also read CiteBot’s verification summary (`grounded` / `mixed` / `ungrounded`); fixture mode proves the score table itself.
+
+---
 
 ## Layout
 
 ```
-cases/handbook.json      # fixed expectations
-fixtures/sample-run.json # golden CiteBot-shaped responses
-src/cli.ts               # npm run eval
-src/score.ts             # deterministic checks
-src/providers/citebot.ts # live HTTP
-src/providers/fixture.ts # offline
+cases/handbook.json       # fixed expectations (source of the scorecard)
+fixtures/sample-run.json  # golden CiteBot-shaped responses
+src/cli.ts                # npm run eval
+src/score.ts              # deterministic checks
+src/providers/fixture.ts  # offline (default)
+src/providers/citebot.ts  # optional live HTTP
+reports/SAMPLE.md         # committed 18/18 sample
 ```
 
 ## License
 
 MIT — portfolio demo code.
-
-## Live runs and quotas
-
-`--provider citebot` depends on the deployed CiteBot Gemini quota. Free-tier daily limits will abort the live run early; that is expected. Use fixture mode for a deterministic score a hiring manager can reproduce without keys.
-
-
-## CI
-
-GitHub Actions needs the `workflow` OAuth scope to push `.yml` from this bot. Until that is granted, run locally (or add this workflow by hand):
-
-```yaml
-# .github/workflows/eval.yml
-name: eval
-on: [push, pull_request]
-jobs:
-  fixture:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: "22", cache: npm }
-      - run: npm ci
-      - run: npm run build
-      - run: npm run eval -- --provider fixture --write-report
-```
