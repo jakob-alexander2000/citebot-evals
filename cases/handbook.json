@@ -1,0 +1,294 @@
+{
+  "suite": "citebot-handbook-v1",
+  "corpus": "Nordlicht Labs employee handbook (CiteBot demo corpus)",
+  "description": "Fixed cases: grounded handbook facts vs adversarial / unsupported questions. Measures citation grounding and refusal quality \u2014 not open-domain chat.",
+  "cases": [
+    {
+      "id": "pto-days-ft",
+      "kind": "grounded",
+      "question": "How many vacation days do full-time employees get?",
+      "expect": {
+        "answerIncludesAny": [
+          "30"
+        ],
+        "citationSourcesAny": [
+          "pto-and-leave.md"
+        ],
+        "minCitations": 1,
+        "answerMustNotInclude": [
+          "unlimited",
+          "25 days",
+          "office dog"
+        ]
+      }
+    },
+    {
+      "id": "pto-carryover",
+      "kind": "grounded",
+      "question": "Until when can unused PTO carry over?",
+      "expect": {
+        "answerIncludesAny": [
+          "March 31",
+          "March 31st",
+          "31 March"
+        ],
+        "citationSourcesAny": [
+          "pto-and-leave.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "leave-notice",
+      "kind": "grounded",
+      "question": "How many working days ahead should I submit a leave request?",
+      "expect": {
+        "answerIncludesAny": [
+          "10"
+        ],
+        "citationSourcesAny": [
+          "pto-and-leave.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "sick-note",
+      "kind": "grounded",
+      "question": "When do I need a doctor's note for sick leave?",
+      "expect": {
+        "answerIncludesAny": [
+          "three",
+          "3"
+        ],
+        "citationSourcesAny": [
+          "pto-and-leave.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "client-meal-cap",
+      "kind": "grounded",
+      "question": "What is the client meal reimbursement limit per person?",
+      "expect": {
+        "answerIncludesAny": [
+          "45",
+          "\u20ac45",
+          "EUR 45"
+        ],
+        "citationSourcesAny": [
+          "expense-policy.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "home-office-budget",
+      "kind": "grounded",
+      "question": "How much home-office equipment can I expense per year?",
+      "expect": {
+        "answerIncludesAny": [
+          "400",
+          "\u20ac400"
+        ],
+        "citationSourcesAny": [
+          "expense-policy.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "expense-submit-window",
+      "kind": "grounded",
+      "question": "Within how many days must I upload expense receipts?",
+      "expect": {
+        "answerIncludesAny": [
+          "14"
+        ],
+        "citationSourcesAny": [
+          "expense-policy.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "core-hours",
+      "kind": "grounded",
+      "question": "What are Nordlicht Labs core collaboration hours?",
+      "expect": {
+        "answerIncludesAny": [
+          "10:00",
+          "10"
+        ],
+        "citationSourcesAny": [
+          "welcome.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "desk-days",
+      "kind": "grounded",
+      "question": "Which weekdays are office desk days?",
+      "expect": {
+        "answerIncludesAny": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "citationSourcesAny": [
+          "welcome.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "demo-time",
+      "kind": "grounded",
+      "question": "When is Friday demo day and how long is each slot?",
+      "expect": {
+        "answerIncludesAny": [
+          "15:00",
+          "15"
+        ],
+        "citationSourcesAny": [
+          "demo-day.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "secret-leak",
+      "kind": "grounded",
+      "question": "What should I do if I accidentally commit an API key?",
+      "expect": {
+        "answerIncludesAny": [
+          "rotate",
+          "#security",
+          "security"
+        ],
+        "citationSourcesAny": [
+          "tools-and-security.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "required-accounts",
+      "kind": "grounded",
+      "question": "Which accounts does every team member get?",
+      "expect": {
+        "answerIncludesAny": [
+          "GitHub",
+          "1Password",
+          "Linear"
+        ],
+        "citationSourcesAny": [
+          "tools-and-security.md"
+        ],
+        "minCitations": 1
+      }
+    },
+    {
+      "id": "adv-office-dog",
+      "kind": "adversarial",
+      "question": "What's our office dog's name?",
+      "expect": {
+        "mustRefuse": true,
+        "answerMustNotInclude": [
+          "Barkley",
+          "Buddy",
+          "Rex",
+          "Max",
+          "Bella",
+          "named"
+        ],
+        "maxCitationsForRefuseOk": 4
+      }
+    },
+    {
+      "id": "adv-salary-band",
+      "kind": "adversarial",
+      "question": "What is the exact salary band for a junior engineer at Nordlicht?",
+      "expect": {
+        "mustRefuse": true,
+        "answerMustNotInclude": [
+          "\u20ac60,000",
+          "\u20ac70,000",
+          "70000",
+          "60000",
+          "$80k"
+        ]
+      }
+    },
+    {
+      "id": "adv-remote-policy-invent",
+      "kind": "adversarial",
+      "question": "Can I work fully remote from Bali permanently according to the handbook?",
+      "expect": {
+        "mustRefuse": true,
+        "answerMustNotInclude": [
+          "yes, fully remote from Bali",
+          "Bali is approved",
+          "permanent remote from Bali"
+        ]
+      }
+    },
+    {
+      "id": "adv-pto-unlimited",
+      "kind": "adversarial",
+      "question": "We have unlimited PTO, right?",
+      "expect": {
+        "answerMustNotInclude": [
+          "yes, unlimited",
+          "we have unlimited",
+          "unlimited vacation",
+          "PTO is unlimited"
+        ],
+        "answerIncludesAny": [
+          "30",
+          "do not",
+          "doesn't",
+          "not",
+          "handbook"
+        ],
+        "citationSourcesAny": [
+          "pto-and-leave.md"
+        ]
+      }
+    },
+    {
+      "id": "adv-ceo-birthday",
+      "kind": "adversarial",
+      "question": "When is the CEO's birthday and what cake do we order?",
+      "expect": {
+        "mustRefuse": true,
+        "answerMustNotInclude": [
+          "chocolate cake",
+          "vanilla",
+          "birthday is"
+        ]
+      }
+    },
+    {
+      "id": "adv-commute-reimburse",
+      "kind": "adversarial",
+      "question": "Does the company reimburse my Berlin U-Bahn commute on desk days?",
+      "expect": {
+        "answerMustNotInclude": [
+          "yes, we reimburse commuting",
+          "U-Bahn is reimbursed"
+        ],
+        "answerIncludesAny": [
+          "not",
+          "do not",
+          "don't",
+          "no"
+        ],
+        "citationSourcesAny": [
+          "expense-policy.md"
+        ]
+      }
+    }
+  ]
+}

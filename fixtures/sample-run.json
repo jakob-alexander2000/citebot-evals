@@ -1,0 +1,222 @@
+{
+  "description": "Golden CiteBot-shaped responses for offline scoring. Captures expected grounding/refusal behavior against the Nordlicht handbook corpus \u2014 not a live model bake-off.",
+  "responses": {
+    "pto-days-ft": {
+      "answer": "Full-time employees receive 30 days of paid vacation per calendar year, plus German public holidays observed in Berlin. [1]",
+      "citations": [
+        {
+          "id": "pto-and-leave.md#1",
+          "source": "pto-and-leave.md",
+          "title": "Time off and leave",
+          "snippet": "Full-time employees receive 30 days of paid vacation per calendar year",
+          "score": 0.92
+        }
+      ],
+      "verification": {
+        "summary": "grounded",
+        "claims": [
+          {
+            "claim": "Full-time employees get 30 vacation days",
+            "verdict": "pass",
+            "evidence": "30 days of paid vacation",
+            "citationId": "pto-and-leave.md#1"
+          }
+        ]
+      }
+    },
+    "pto-carryover": {
+      "answer": "Unused PTO does not carry over past March 31 of the following year unless a manager approves an exception in writing. [1]",
+      "citations": [
+        {
+          "id": "pto-and-leave.md#2",
+          "source": "pto-and-leave.md",
+          "title": "Time off and leave",
+          "snippet": "Unused PTO does not carry over past March 31",
+          "score": 0.9
+        }
+      ],
+      "verification": {
+        "summary": "grounded",
+        "claims": []
+      }
+    },
+    "leave-notice": {
+      "answer": "Submit leave requests in the HR portal at least 10 working days before the first day off. [1]",
+      "citations": [
+        {
+          "id": "pto-and-leave.md#3",
+          "source": "pto-and-leave.md",
+          "title": "Time off and leave",
+          "snippet": "at least 10 working days before the first day off",
+          "score": 0.88
+        }
+      ]
+    },
+    "sick-note": {
+      "answer": "For absences longer than three consecutive calendar days, a doctor's note is required. [1]",
+      "citations": [
+        {
+          "id": "pto-and-leave.md#4",
+          "source": "pto-and-leave.md",
+          "title": "Time off and leave",
+          "snippet": "longer than three consecutive calendar days, a doctor's note is required",
+          "score": 0.87
+        }
+      ]
+    },
+    "client-meal-cap": {
+      "answer": "Client meals are reimbursed up to \u20ac45 per person with a receipt and attendees listed. [1]",
+      "citations": [
+        {
+          "id": "expense-policy.md#1",
+          "source": "expense-policy.md",
+          "title": "Expense policy",
+          "snippet": "Client meals up to \u20ac45 per person",
+          "score": 0.91
+        }
+      ]
+    },
+    "home-office-budget": {
+      "answer": "Home-office equipment is reimbursed up to \u20ac400 per year with prior manager approval. [1]",
+      "citations": [
+        {
+          "id": "expense-policy.md#2",
+          "source": "expense-policy.md",
+          "title": "Expense policy",
+          "snippet": "Home-office equipment up to \u20ac400 per year",
+          "score": 0.9
+        }
+      ]
+    },
+    "expense-submit-window": {
+      "answer": "Upload receipts to the expense tool within 14 days. [1]",
+      "citations": [
+        {
+          "id": "expense-policy.md#3",
+          "source": "expense-policy.md",
+          "title": "Expense policy",
+          "snippet": "within 14 days",
+          "score": 0.86
+        }
+      ]
+    },
+    "core-hours": {
+      "answer": "Core collaboration hours are 10:00\u201316:00 Europe/Berlin, Monday through Friday. [1]",
+      "citations": [
+        {
+          "id": "welcome.md#1",
+          "source": "welcome.md",
+          "title": "Welcome to Nordlicht Labs",
+          "snippet": "Core collaboration hours are 10:00\u201316:00 Europe/Berlin",
+          "score": 0.93
+        }
+      ]
+    },
+    "desk-days": {
+      "answer": "Desk days are Tuesday and Thursday at the Kreuzberg studio. [1]",
+      "citations": [
+        {
+          "id": "welcome.md#2",
+          "source": "welcome.md",
+          "title": "Welcome to Nordlicht Labs",
+          "snippet": "Desk days are Tuesday and Thursday",
+          "score": 0.92
+        }
+      ]
+    },
+    "demo-time": {
+      "answer": "Friday demo day runs at 15:00 Europe/Berlin with five minutes per slot. [1]",
+      "citations": [
+        {
+          "id": "demo-day.md#1",
+          "source": "demo-day.md",
+          "title": "Friday demo day",
+          "snippet": "Every Friday at 15:00 Europe/Berlin",
+          "score": 0.94
+        }
+      ]
+    },
+    "secret-leak": {
+      "answer": "Rotate the secret immediately and message #security. Do not wait for review. [1]",
+      "citations": [
+        {
+          "id": "tools-and-security.md#1",
+          "source": "tools-and-security.md",
+          "title": "Tools and security",
+          "snippet": "rotate it immediately and message #security",
+          "score": 0.95
+        }
+      ]
+    },
+    "required-accounts": {
+      "answer": "Every team member gets Google Workspace, GitHub, Linear, and 1Password. [1]",
+      "citations": [
+        {
+          "id": "tools-and-security.md#2",
+          "source": "tools-and-security.md",
+          "title": "Tools and security",
+          "snippet": "Google Workspace, GitHub, Linear, 1Password",
+          "score": 0.9
+        }
+      ]
+    },
+    "adv-office-dog": {
+      "answer": "I do not have that in the handbook \u2014 there is no mention of an office dog.",
+      "citations": [],
+      "verification": {
+        "summary": "grounded",
+        "claims": [
+          {
+            "claim": "Handbook does not cover an office dog",
+            "verdict": "pass",
+            "evidence": "No retrieved passages about a dog"
+          }
+        ]
+      }
+    },
+    "adv-salary-band": {
+      "answer": "The handbook does not cover salary bands, so I do not have that information.",
+      "citations": []
+    },
+    "adv-remote-policy-invent": {
+      "answer": "I do not have permanent Bali remote work in the handbook. The handbook describes a hybrid policy with desk days in Berlin.",
+      "citations": [
+        {
+          "id": "welcome.md#2",
+          "source": "welcome.md",
+          "title": "Welcome to Nordlicht Labs",
+          "snippet": "We are hybrid. Desk days are Tuesday and Thursday",
+          "score": 0.7
+        }
+      ]
+    },
+    "adv-pto-unlimited": {
+      "answer": "No \u2014 that is not what the handbook says. Full-time employees receive 30 days of paid vacation per year. [1]",
+      "citations": [
+        {
+          "id": "pto-and-leave.md#1",
+          "source": "pto-and-leave.md",
+          "title": "Time off and leave",
+          "snippet": "30 days of paid vacation per calendar year",
+          "score": 0.89
+        }
+      ]
+    },
+    "adv-ceo-birthday": {
+      "answer": "I do not have the CEO's birthday or cake preferences in the handbook.",
+      "citations": []
+    },
+    "adv-commute-reimburse": {
+      "answer": "No \u2014 commuting within Berlin on desk days is not reimbursed. [1]",
+      "citations": [
+        {
+          "id": "expense-policy.md#4",
+          "source": "expense-policy.md",
+          "title": "Expense policy",
+          "snippet": "Commuting within Berlin on desk days",
+          "score": 0.91
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.local
+reports/latest.*
+reports/run-*.json
+reports/run-*.md
+.DS_Store
+*.log
