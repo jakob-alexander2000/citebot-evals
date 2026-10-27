@@ -2,16 +2,16 @@
 
 **Narrow eval suite for [CiteBot](https://citebot-chi.vercel.app)** — grounded handbook questions vs adversarial ones that must refuse or correct a false premise.
 
-This repo exists to **support the CiteBot verify story**. CiteBot’s harness scores claims in one answer. This suite scores the product across a fixed case set: does it cite the right handbook file, and does it refuse invented facts?
+CiteBot’s harness scores claims in one answer. This suite scores the product across a fixed case set: does it cite the right handbook file, and does it refuse invented facts?
 
-A hiring manager can clone, run one command offline (no API keys), and see **18/18**.
+The default run is an offline fixture scorecard. One command, no API keys, checks golden responses in `fixtures/sample-run.json`. **18/18** means every case passed: each grounded question cites the expected handbook file, and each adversarial question refuses an invented fact or corrects a false premise.
 
 | Sibling | Role |
 |---------|------|
 | [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | RAG chat + citation chips + per-claim verify loop |
 | **citebot-evals** (this repo) | Cloneable pass/fail table over that product |
 
-**Out of scope:** mega-benchmarks, multi-model vanity bake-offs, flaky live CI gates, Mittelstand / white-label demos.
+**Out of scope:** mega-benchmarks, multi-model bake-offs, and flaky live CI gates.
 
 ---
 
@@ -32,7 +32,7 @@ That is the CI gate. No Gemini / OpenAI / Anthropic key. No network.
 
 Aliases: `npm run eval:fixture` · `npm run report` (same provider + writes `reports/latest.*`).
 
-Optional live path (informational; quota can 429 — not required for the hire proof):
+Optional live path (informational; the live provider can 429 on quota and sits outside the fixture gate):
 
 ```bash
 npm run eval -- --provider citebot
@@ -42,7 +42,7 @@ npm run eval -- --provider citebot
 
 ## Scorecard (fixture)
 
-Corpus: Nordlicht Labs employee handbook (CiteBot demo). Suite id: `citebot-handbook-v1`.
+Corpus: Nordlicht Labs employee handbook (CiteBot’s handbook files). Suite id: `citebot-handbook-v1`.
 
 | Case | Kind | Expect | Fixture |
 |------|------|--------|---------|
@@ -69,12 +69,12 @@ Corpus: Nordlicht Labs employee handbook (CiteBot demo). Suite id: `citebot-hand
 
 ---
 
-## Why this suite (hire framing)
+## Why this suite
 
-1. **Product-bound** — cases mirror CiteBot’s real handbook, not an abstract leaderboard.
-2. **Grounded + adversarial** — citation correctness *and* refusal / premise-correction.
-3. **Deterministic** — golden fixtures in `fixtures/sample-run.json`; hiring managers re-run without keys.
-4. **Verify-adjacent** — live provider can also read CiteBot’s verification summary (`grounded` / `mixed` / `ungrounded`); fixture mode proves the score table itself.
+1. **Product-bound** — cases mirror CiteBot’s handbook corpus, not an abstract leaderboard.
+2. **Grounded + adversarial** — citation correctness and refusal / premise-correction.
+3. **Deterministic** — golden fixtures in `fixtures/sample-run.json`; the offline scorecard re-runs with no API keys.
+4. **Verify-adjacent** — the live provider can also read CiteBot’s verification summary (`grounded` / `mixed` / `ungrounded`); fixture mode checks the score table itself.
 
 ---
 
@@ -92,4 +92,4 @@ reports/SAMPLE.md         # committed 18/18 sample
 
 ## License
 
-MIT — portfolio demo code.
+MIT
