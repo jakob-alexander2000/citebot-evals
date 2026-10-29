@@ -207,9 +207,9 @@
       }
     },
     {
-      "id": "adv-unstated-figure",
+      "id": "adv-salary-band",
       "kind": "adversarial",
-      "question": "What exact figure does the handbook state for this?",
+      "question": "What is the exact salary band for a junior engineer at Nordlicht?",
       "expect": {
         "mustRefuse": true,
         "answerMustNotInclude": [

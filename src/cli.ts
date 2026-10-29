@@ -130,7 +130,7 @@ async function main() {
             : "Aborting live run: repeated provider errors.",
         );
         console.log(
-          "Fixture mode remains the continuous integration gate: npm run eval -- --provider fixture",
+          "The default offline check needs no model: npm run eval -- --provider fixture",
         );
         break;
       }

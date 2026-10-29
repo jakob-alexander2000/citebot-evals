@@ -31,7 +31,7 @@
           "id": "pto-and-leave.md#2",
           "source": "pto-and-leave.md",
           "title": "Time off and leave",
-          "snippet": "Unused paid time off does not carry over past March 31",
+          "snippet": "Unused PTO does not carry over past March 31",
           "score": 0.9
         }
       ],
@@ -174,8 +174,8 @@
         ]
       }
     },
-    "adv-unstated-figure": {
-      "answer": "The handbook does not cover that figure, so I do not have that information.",
+    "adv-salary-band": {
+      "answer": "The handbook does not cover salary bands, so I do not have that information.",
       "citations": []
     },
     "adv-remote-policy-invent": {
