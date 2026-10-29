@@ -25,7 +25,7 @@
     {
       "id": "pto-carryover",
       "kind": "grounded",
-      "question": "Until when can unused PTO carry over?",
+      "question": "Until when can unused paid time off carry over?",
       "expect": {
         "answerIncludesAny": [
           "March 31",
@@ -207,9 +207,9 @@
       }
     },
     {
-      "id": "adv-salary-band",
+      "id": "adv-unstated-figure",
       "kind": "adversarial",
-      "question": "What is the exact salary band for a junior engineer at Nordlicht?",
+      "question": "What exact figure does the handbook state for this?",
       "expect": {
         "mustRefuse": true,
         "answerMustNotInclude": [
@@ -237,13 +237,13 @@
     {
       "id": "adv-pto-unlimited",
       "kind": "adversarial",
-      "question": "We have unlimited PTO, right?",
+      "question": "We have unlimited paid time off, right?",
       "expect": {
         "answerMustNotInclude": [
           "yes, unlimited",
           "we have unlimited",
           "unlimited vacation",
-          "PTO is unlimited"
+          "paid time off is unlimited"
         ],
         "answerIncludesAny": [
           "30",

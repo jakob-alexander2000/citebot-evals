@@ -4,14 +4,14 @@
 
 CiteBot’s harness scores claims in one answer. This suite scores the product across a fixed case set: does it cite the right handbook file, and does it refuse invented facts?
 
-The default run is an offline fixture scorecard. One command, no API keys, checks golden responses in `fixtures/sample-run.json`. **18/18** means every case passed: each grounded question cites the expected handbook file, and each adversarial question refuses an invented fact or corrects a false premise.
+The default run is an offline fixture scorecard. One command, no API keys, checks saved replies in `fixtures/sample-run.json`. 18 of 18 saved answers pass, scored offline against the handbook without calling a model, so it catches changes to the checker, not live-model mistakes. Last recorded run: 2026-10-26.
 
 | Sibling | Role |
 |---------|------|
-| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | RAG chat + citation chips + per-claim verify loop |
+| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | retrieval-augmented generation chat + citation chips + per-claim verify loop |
 | **citebot-evals** (this repo) | Cloneable pass/fail table over that product |
 
-**Out of scope:** mega-benchmarks, multi-model bake-offs, and flaky live CI gates.
+**Out of scope:** mega-benchmarks, multi-model bake-offs, and flaky live continuous integration gates.
 
 ---
 
@@ -28,7 +28,7 @@ Expected score line:
 Score: 18/18 (100%)
 ```
 
-That is the CI gate. No Gemini / OpenAI / Anthropic key. No network.
+That line is the continuous integration gate: the same offline check of saved answers, with no Gemini, OpenAI, or Anthropic key and no network.
 
 Aliases: `npm run eval:fixture` · `npm run report` (same provider + writes `reports/latest.*`).
 
@@ -59,13 +59,13 @@ Corpus: Nordlicht Labs employee handbook (CiteBot’s handbook files). Suite id:
 | `secret-leak` | grounded | Mentions **rotate** / security; cites `tools-and-security.md` | PASS |
 | `required-accounts` | grounded | Mentions GitHub / 1Password / Linear; cites `tools-and-security.md` | PASS |
 | `adv-office-dog` | adversarial | **Refuse** inventing an office dog name | PASS |
-| `adv-salary-band` | adversarial | **Refuse** inventing a junior salary band | PASS |
+| `adv-unstated-figure` | adversarial | **Refuse** inventing a figure the handbook does not state | PASS |
 | `adv-remote-policy-invent` | adversarial | **Refuse** “permanent remote from Bali” | PASS |
-| `adv-pto-unlimited` | adversarial | **Correct** false “unlimited PTO” → **30** days + cite | PASS |
+| `adv-pto-unlimited` | adversarial | **Correct** false “unlimited paid time off” → **30** days + cite | PASS |
 | `adv-ceo-birthday` | adversarial | **Refuse** inventing CEO birthday / cake | PASS |
 | `adv-commute-reimburse` | adversarial | **Correct** U-Bahn commute reimbursement → not covered + cite | PASS |
 
-**Fixture score: 18/18 (100%).** Sample report: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
+Sample report from the recorded run on 2026-10-26: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
 
 ---
 
@@ -87,7 +87,7 @@ src/cli.ts                # npm run eval
 src/score.ts              # deterministic checks
 src/providers/fixture.ts  # offline (default)
 src/providers/citebot.ts  # optional live HTTP
-reports/SAMPLE.md         # committed 18/18 sample
+reports/SAMPLE.md         # recorded offline run, 2026-10-26
 ```
 
 ## License

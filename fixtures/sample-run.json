@@ -25,13 +25,13 @@
       }
     },
     "pto-carryover": {
-      "answer": "Unused PTO does not carry over past March 31 of the following year unless a manager approves an exception in writing. [1]",
+      "answer": "Unused paid time off does not carry over past March 31 of the following year unless a manager approves an exception in writing. [1]",
       "citations": [
         {
           "id": "pto-and-leave.md#2",
           "source": "pto-and-leave.md",
           "title": "Time off and leave",
-          "snippet": "Unused PTO does not carry over past March 31",
+          "snippet": "Unused paid time off does not carry over past March 31",
           "score": 0.9
         }
       ],
@@ -174,8 +174,8 @@
         ]
       }
     },
-    "adv-salary-band": {
-      "answer": "The handbook does not cover salary bands, so I do not have that information.",
+    "adv-unstated-figure": {
+      "answer": "The handbook does not cover that figure, so I do not have that information.",
       "citations": []
     },
     "adv-remote-policy-invent": {

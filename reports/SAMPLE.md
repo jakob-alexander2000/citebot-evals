@@ -24,7 +24,7 @@
 | `secret-leak` | grounded | ✅ PASS | 3/3 | 0ms |
 | `required-accounts` | grounded | ✅ PASS | 3/3 | 0ms |
 | `adv-office-dog` | adversarial | ✅ PASS | 2/2 | 0ms |
-| `adv-salary-band` | adversarial | ✅ PASS | 2/2 | 0ms |
+| `adv-unstated-figure` | adversarial | ✅ PASS | 2/2 | 0ms |
 | `adv-remote-policy-invent` | adversarial | ✅ PASS | 2/2 | 0ms |
 | `adv-pto-unlimited` | adversarial | ✅ PASS | 3/3 | 0ms |
 | `adv-ceo-birthday` | adversarial | ✅ PASS | 2/2 | 0ms |
