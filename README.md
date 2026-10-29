@@ -4,12 +4,12 @@
 
 CiteBot’s harness scores claims in one answer. This suite scores the product across a fixed case set: does it cite the right handbook file, and does it refuse invented facts?
 
-The default run is an offline fixture scorecard. One command, no API keys, checks saved replies in `fixtures/sample-run.json`. 18 of 18 saved answers pass, scored offline against the handbook without calling a model, so it catches changes to the checker, not live-model mistakes. Last recorded run: 2026-10-26.
+The default run is a score from saved answers, run without a model. One command, no API keys, checks saved replies in `fixtures/sample-run.json`. 18 of 18 saved answers pass, scored offline against the handbook without calling a model, so it catches changes to the checker, not live-model mistakes. Last recorded run: 26 October 2026.
 
 | Sibling | Role |
 |---------|------|
-| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | retrieval-augmented generation chat + citation chips + per-claim verify loop |
-| **citebot-evals** (this repo) | Cloneable pass/fail table over that product |
+| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | retrieval-augmented generation chat with links from each answer to its source passage, plus a per-claim verify loop |
+| **citebot-evals** (this repo) | Cloneable pass or fail table over that product |
 
 **Out of scope:** mega-benchmarks, multi-model bake-offs, and flaky live continuous integration gates.
 
@@ -65,7 +65,7 @@ Corpus: Nordlicht Labs employee handbook (CiteBot’s handbook files). Suite id:
 | `adv-ceo-birthday` | adversarial | **Refuse** inventing CEO birthday / cake | PASS |
 | `adv-commute-reimburse` | adversarial | **Correct** U-Bahn commute reimbursement → not covered + cite | PASS |
 
-Sample report from the recorded run on 2026-10-26: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
+Sample report from the recorded run on 26 October 2026: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
 
 ---
 
@@ -87,7 +87,7 @@ src/cli.ts                # npm run eval
 src/score.ts              # deterministic checks
 src/providers/fixture.ts  # offline (default)
 src/providers/citebot.ts  # optional live HTTP
-reports/SAMPLE.md         # recorded offline run, 2026-10-26
+reports/SAMPLE.md         # recorded run, 26 October 2026
 ```
 
 ## License
