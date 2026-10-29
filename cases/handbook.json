@@ -1,7 +1,7 @@
 {
   "suite": "citebot-handbook-v1",
   "corpus": "Nordlicht Labs employee handbook (CiteBot demo corpus)",
-  "description": "Fixed cases: grounded handbook facts vs adversarial / unsupported questions. Measures citation grounding and refusal quality \u2014 not open-domain chat.",
+  "description": "Fixed cases: grounded handbook facts versus adversarial / unsupported questions. Measures citation grounding and refusal quality \u2014 not open-domain chat.",
   "cases": [
     {
       "id": "pto-days-ft",
