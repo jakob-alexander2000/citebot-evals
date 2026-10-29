@@ -8,7 +8,7 @@ The default run needs no model and no API keys. It scores 18 example answers, wr
 
 | Sibling | Role |
 |---------|------|
-| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | chat that answers from the handbook. Each answer lists its sources, and selecting one shows the passage it used. A second step then checks every claim against those passages. |
+| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | Chat that answers from the handbook. Each answer lists its sources, and selecting one shows the passage it used. A second step then checks every claim against those passages. |
 | **citebot-evals** (this repo) | Questions and expected answers you can run yourself |
 
 ---
@@ -26,11 +26,11 @@ Expected score line:
 Score: 18/18 (100%)
 ```
 
-CiteBot's continuous integration runs this same check on every CiteBot push and pull request, and marks the run failed if any answer fails. This repository has no continuous integration of its own.
+CiteBot's continuous integration runs this same check on every push to CiteBot's main branch and on every CiteBot pull request, and marks the run failed if any answer fails. This repository has no continuous integration of its own.
 
-Aliases: `npm run eval:fixture` · `npm run report` (same provider + writes `reports/latest.*`).
+Other commands: `npm run eval:fixture` does the same; `npm run report` also writes the result to `reports/latest.md`.
 
-Optional live path (informational; the live provider can 429 on quota and sits outside the fixture gate):
+Optional live run, for information only. It asks the live CiteBot each question, can hit its usage limit, and fails only if you add `--strict`:
 
 ```bash
 npm run eval -- --provider citebot
@@ -40,7 +40,7 @@ npm run eval -- --provider citebot
 
 ## The 18 questions
 
-Corpus: Nordlicht Labs employee handbook (CiteBot’s handbook files). Suite id: `citebot-handbook-v1`.
+Handbook: Nordlicht Labs employee handbook (CiteBot's sample files). Question set: `citebot-handbook-v1`.
 
 | Case | Kind | Expect | Fixture |
 |------|------|--------|---------|
@@ -69,9 +69,9 @@ Sample report from the recorded run on 29 October 2026: [`reports/SAMPLE.md`](./
 
 ## Why this suite
 
-1. **Product-bound** — cases mirror CiteBot’s handbook corpus, not an abstract leaderboard.
+1. **Built for CiteBot:** the questions come from CiteBot's own handbook files.
 2. **Answerable and trick** — citation correctness and refusal or premise-correction.
-3. **Deterministic** — golden fixtures in `fixtures/sample-run.json`; the offline scorecard re-runs with no API keys.
+3. **Same result every time:** the example answers in `fixtures/sample-run.json` are fixed, so every run gives the same score, with no API keys.
 4. **Reads CiteBot's own check:** the live run also records CiteBot's verdict on each answer (`grounded`, `mixed` or `ungrounded`). The default run does not.
 
 ---

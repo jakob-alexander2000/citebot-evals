@@ -168,7 +168,7 @@ async function main() {
     console.log(`Wrote report: ${mdPath}`);
   }
 
-  // Fixture mode is the continuous integration gate: must be green.
+  // The default offline check must pass.
   // Live CiteBot is informational (model drift) unless --strict.
   if (provider === "fixture" && failed > 0) process.exit(1);
   if (provider === "citebot" && has("--strict") && failed > 0) process.exit(1);
