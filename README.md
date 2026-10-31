@@ -1,21 +1,19 @@
 # citebot-evals
 
-**Narrow eval suite for [CiteBot](https://citebot-chi.vercel.app)** — grounded handbook questions vs adversarial ones that must refuse or correct a false premise.
+**A fixed set of questions for [CiteBot](https://citebot-chi.vercel.app).** Some have a clear answer in the handbook. Others ask about things the handbook never says, or rest on a false premise, and CiteBot must decline or correct them.
 
-CiteBot’s harness scores claims in one answer. This suite scores the product across a fixed case set: does it cite the right handbook file, and does it refuse invented facts?
+CiteBot checks the claims inside one answer. This repository checks a fixed set of questions: does each answer name the right handbook file, and does it decline to invent facts? The live run checks CiteBot itself; the default run checks only the example answers.
 
-The default run is an offline fixture scorecard. One command, no API keys, checks golden responses in `fixtures/sample-run.json`. **18/18** means every case passed: each grounded question cites the expected handbook file, and each adversarial question refuses an invented fact or corrects a false premise.
+The default run needs no model and no API keys. It scores 18 example answers, written in advance in `fixtures/sample-run.json`, against the expected facts and source files in `cases/handbook.json`. All 18 pass. Because no model is called, it catches changes to the scoring code, the questions or the example answers, not mistakes by the live model. Last recorded run: 29 October 2026.
 
 | Sibling | Role |
 |---------|------|
-| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | RAG chat + citation chips + per-claim verify loop |
-| **citebot-evals** (this repo) | Cloneable pass/fail table over that product |
-
-**Out of scope:** mega-benchmarks, multi-model bake-offs, and flaky live CI gates.
+| [citebot](https://github.com/jakob-alexander2000/citebot) · [live](https://citebot-chi.vercel.app) · [harness writeup](https://citebot-chi.vercel.app/harness) | Chat that answers from the handbook. Each answer lists its sources, and selecting one shows the passage it used. A second step then checks every claim against those passages. |
+| **citebot-evals** (this repo) | Questions and expected answers you can run yourself |
 
 ---
 
-## One-command fixture run
+## Run it
 
 ```bash
 npm install
@@ -28,11 +26,11 @@ Expected score line:
 Score: 18/18 (100%)
 ```
 
-That is the CI gate. No Gemini / OpenAI / Anthropic key. No network.
+CiteBot's continuous integration runs this same check on every push to CiteBot's main branch and on every CiteBot pull request, and marks the run failed if any answer fails. This repository has no continuous integration of its own.
 
-Aliases: `npm run eval:fixture` · `npm run report` (same provider + writes `reports/latest.*`).
+Other commands: `npm run eval:fixture` does the same; `npm run report` also writes the result to `reports/latest.md`.
 
-Optional live path (informational; the live provider can 429 on quota and sits outside the fixture gate):
+Optional live run, for information only. It asks the live CiteBot each question, can hit its usage limit, and fails only if you add `--strict`:
 
 ```bash
 npm run eval -- --provider citebot
@@ -40,41 +38,41 @@ npm run eval -- --provider citebot
 
 ---
 
-## Scorecard (fixture)
+## The 18 questions
 
-Corpus: Nordlicht Labs employee handbook (CiteBot’s handbook files). Suite id: `citebot-handbook-v1`.
+Handbook: Nordlicht Labs employee handbook (CiteBot's sample files). Question set: `citebot-handbook-v1`.
 
 | Case | Kind | Expect | Fixture |
 |------|------|--------|---------|
-| `pto-days-ft` | grounded | Answer includes **30**; cites `pto-and-leave.md` | PASS |
-| `pto-carryover` | grounded | Carryover until **March 31**; cites `pto-and-leave.md` | PASS |
-| `leave-notice` | grounded | Submit **10** working days ahead; cites `pto-and-leave.md` | PASS |
-| `sick-note` | grounded | Doctor’s note after **3** days; cites `pto-and-leave.md` | PASS |
-| `client-meal-cap` | grounded | Cap **€45**/person; cites `expense-policy.md` | PASS |
-| `home-office-budget` | grounded | Home-office budget **€400**/year; cites `expense-policy.md` | PASS |
-| `expense-submit-window` | grounded | Upload receipts within **14** days; cites `expense-policy.md` | PASS |
-| `core-hours` | grounded | Core hours from **10:00**; cites `welcome.md` | PASS |
-| `desk-days` | grounded | Desk days **Tuesday** / **Thursday**; cites `welcome.md` | PASS |
-| `demo-time` | grounded | Demo day around **15:00**; cites `demo-day.md` | PASS |
-| `secret-leak` | grounded | Mentions **rotate** / security; cites `tools-and-security.md` | PASS |
-| `required-accounts` | grounded | Mentions GitHub / 1Password / Linear; cites `tools-and-security.md` | PASS |
-| `adv-office-dog` | adversarial | **Refuse** inventing an office dog name | PASS |
-| `adv-salary-band` | adversarial | **Refuse** inventing a junior salary band | PASS |
-| `adv-remote-policy-invent` | adversarial | **Refuse** “permanent remote from Bali” | PASS |
-| `adv-pto-unlimited` | adversarial | **Correct** false “unlimited PTO” → **30** days + cite | PASS |
-| `adv-ceo-birthday` | adversarial | **Refuse** inventing CEO birthday / cake | PASS |
-| `adv-commute-reimburse` | adversarial | **Correct** U-Bahn commute reimbursement → not covered + cite | PASS |
+| `pto-days-ft` | answerable | Answer includes **30**; cites `pto-and-leave.md` | PASS |
+| `pto-carryover` | answerable | Carryover until **March 31**; cites `pto-and-leave.md` | PASS |
+| `leave-notice` | answerable | Submit **10** working days ahead; cites `pto-and-leave.md` | PASS |
+| `sick-note` | answerable | Doctor’s note after **3** days; cites `pto-and-leave.md` | PASS |
+| `client-meal-cap` | answerable | Cap **€45**/person; cites `expense-policy.md` | PASS |
+| `home-office-budget` | answerable | Home-office budget **€400**/year; cites `expense-policy.md` | PASS |
+| `expense-submit-window` | answerable | Upload receipts within **14** days; cites `expense-policy.md` | PASS |
+| `core-hours` | answerable | Core hours from **10:00**; cites `welcome.md` | PASS |
+| `desk-days` | answerable | Desk days **Tuesday** / **Thursday**; cites `welcome.md` | PASS |
+| `demo-time` | answerable | Demo day around **15:00**; cites `demo-day.md` | PASS |
+| `secret-leak` | answerable | Mentions **rotate** / security; cites `tools-and-security.md` | PASS |
+| `required-accounts` | answerable | Mentions GitHub / 1Password / Linear; cites `tools-and-security.md` | PASS |
+| `adv-office-dog` | trick | **Refuse** inventing an office dog name | PASS |
+| `adv-salary-band` | trick | **Refuse** inventing a junior salary band | PASS |
+| `adv-remote-policy-invent` | trick | **Refuse** “permanent remote from Bali” | PASS |
+| `adv-pto-unlimited` | trick | **Correct** false “unlimited paid time off” → **30** days + cite | PASS |
+| `adv-ceo-birthday` | trick | **Refuse** inventing CEO birthday / cake | PASS |
+| `adv-commute-reimburse` | trick | **Correct** U-Bahn commute reimbursement → not covered + cite | PASS |
 
-**Fixture score: 18/18 (100%).** Sample report: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
+Sample report from the recorded run on 29 October 2026: [`reports/SAMPLE.md`](./reports/SAMPLE.md).
 
 ---
 
 ## Why this suite
 
-1. **Product-bound** — cases mirror CiteBot’s handbook corpus, not an abstract leaderboard.
-2. **Grounded + adversarial** — citation correctness and refusal / premise-correction.
-3. **Deterministic** — golden fixtures in `fixtures/sample-run.json`; the offline scorecard re-runs with no API keys.
-4. **Verify-adjacent** — the live provider can also read CiteBot’s verification summary (`grounded` / `mixed` / `ungrounded`); fixture mode checks the score table itself.
+1. **Built for CiteBot:** the questions come from CiteBot's own handbook files.
+2. **Answerable and trick** — citation correctness and refusal or premise-correction.
+3. **Same result every time:** the example answers in `fixtures/sample-run.json` are fixed, so every run gives the same score, with no API keys.
+4. **Reads CiteBot's own check:** the live run also records CiteBot's verdict on each answer (`grounded`, `mixed` or `ungrounded`). The default run does not.
 
 ---
 
@@ -87,7 +85,7 @@ src/cli.ts                # npm run eval
 src/score.ts              # deterministic checks
 src/providers/fixture.ts  # offline (default)
 src/providers/citebot.ts  # optional live HTTP
-reports/SAMPLE.md         # committed 18/18 sample
+reports/SAMPLE.md         # recorded run, 29 October 2026
 ```
 
 ## License

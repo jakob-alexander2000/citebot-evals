@@ -2,6 +2,29 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { CaseResult, RunReport } from "./types.js";
 
+const runDate = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hourCycle: "h23",
+  timeZone: "Europe/Berlin",
+});
+
+function formatRunDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  const parts = Object.fromEntries(
+    runDate
+      .formatToParts(date)
+      .filter((part) => part.type !== "literal")
+      .map((part) => [part.type, part.value]),
+  );
+  return `${parts.day} ${parts.month} ${parts.year}, ${parts.hour}:${parts.minute}:${parts.second} Berlin time`;
+}
+
 function pad(s: string, n: number): string {
   if (s.length >= n) return s.slice(0, n - 1) + "…";
   return s + " ".repeat(n - s.length);
@@ -30,8 +53,8 @@ export function formatMarkdown(report: RunReport): string {
   lines.push(`- **Suite:** ${report.suite}`);
   lines.push(`- **Provider:** ${report.provider}`);
   lines.push(`- **Target:** ${report.target}`);
-  lines.push(`- **Started:** ${report.startedAt}`);
-  lines.push(`- **Finished:** ${report.finishedAt}`);
+  lines.push(`- **Started:** ${formatRunDate(report.startedAt)}`);
+  lines.push(`- **Finished:** ${formatRunDate(report.finishedAt)}`);
   lines.push(
     `- **Score:** **${report.score}** (${report.passed}/${report.total} passed)`,
   );

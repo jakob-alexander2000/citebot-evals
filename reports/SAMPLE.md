@@ -3,8 +3,8 @@
 - **Suite:** citebot-handbook-v1
 - **Provider:** fixture
 - **Target:** fixtures/sample-run.json
-- **Started:** 2026-10-26T16:24:19.749Z
-- **Finished:** 2026-10-26T16:24:19.750Z
+- **Started:** 29 October 2026, 21:45:33 Berlin time
+- **Finished:** 29 October 2026, 21:45:33 Berlin time
 - **Score:** **18/18 (100%)** (18/18 passed)
 
 ## Results

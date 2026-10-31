@@ -130,7 +130,7 @@ async function main() {
             : "Aborting live run: repeated provider errors.",
         );
         console.log(
-          "Fixture mode remains the CI gate: npm run eval -- --provider fixture",
+          "The default offline check needs no model: npm run eval -- --provider fixture",
         );
         break;
       }
@@ -168,7 +168,7 @@ async function main() {
     console.log(`Wrote report: ${mdPath}`);
   }
 
-  // Fixture mode is the CI gate: must be green.
+  // The default offline check must pass.
   // Live CiteBot is informational (model drift) unless --strict.
   if (provider === "fixture" && failed > 0) process.exit(1);
   if (provider === "citebot" && has("--strict") && failed > 0) process.exit(1);
