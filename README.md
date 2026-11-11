@@ -26,7 +26,7 @@ Expected score line:
 Score: 18/18 (100%)
 ```
 
-CiteBot's continuous integration runs this same check on every push to CiteBot's main branch and on every CiteBot pull request, and marks the run failed if any answer fails. This repository has no continuous integration of its own.
+CiteBot's continuous integration runs this same check on every push to CiteBot's main branch and on every CiteBot pull request, and marks the run failed if any answer fails. This repository's own continuous integration (`.github/workflows/verify.yml`) runs the typecheck and the offline eval on every push to main and on every pull request.
 
 Other commands: `npm run eval:fixture` does the same; `npm run report` also writes the result to `reports/latest.md`.
 
